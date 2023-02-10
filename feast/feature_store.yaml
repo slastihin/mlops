@@ -1,0 +1,25 @@
+entity_key_serialization_version: 2
+offline_store:
+  database: FEAST_OFFLINE_STORE
+  db_schema: public
+  host: cassandra-postgresql.feast-db
+  password: postgres
+  port: 5432
+  type: postgres
+  user: portal
+online_store:
+  hosts:
+  - cassandra.feast-db
+  keyspace: dognauts_feature_store
+  load_balancing:
+    load_balancing_policy: DCAwareRoundRobinPolicy
+    local_dc: datacenter1
+  password: cassandra
+  port: 9042
+  protocol_version: 5
+  request_timeout: 60.0
+  type: cassandra
+  username: cassandra
+project: REESTR
+provider: local
+registry: s3://dognauts-reestr/registry.db
