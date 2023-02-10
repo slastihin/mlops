@@ -1,0 +1,48 @@
+apiVersion: machinelearning.seldon.io/v1alpha2
+kind: SeldonDeployment
+metadata:
+  name: production-model
+  namespace: dognauts-reestr
+spec:
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - env:
+          - name: GUNICORN_WORKERS
+            value: '2'
+          - name: GUNICORN_THREADS
+            value: '2'
+          livenessProbe:
+            failureThreshold: 200
+            httpGet:
+              path: /health/ping
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 80
+            periodSeconds: 5
+            successThreshold: 1
+          name: production-model
+          readinessProbe:
+            failureThreshold: 200
+            httpGet:
+              path: /health/ping
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 80
+            periodSeconds: 5
+            successThreshold: 1
+          resources:
+            limits:
+              cpu: 2
+              memory: 4Gi
+            requests:
+              cpu: 1
+              memory: 2Gi
+    graph:
+      envSecretRefName: seldon-secret
+      implementation: MLFLOW_SERVER
+      modelUri: s3://dognauts-reestr/1/47db4c6029b648afa1726dbc6998bfb1/artifacts/model
+      name: production-model
+    name: production-model
+    replicas: 1
