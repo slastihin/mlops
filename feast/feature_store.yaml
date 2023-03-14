@@ -20,6 +20,6 @@ online_store:
   request_timeout: 60.0
   type: cassandra
   username: cassandra
-project: BACKUP
+project: REESTR
 provider: local
-registry: s3://dognauts-backup/registry.db
+registry: s3://dognauts-reestr/registry.db
